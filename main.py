@@ -5,17 +5,18 @@ def main():
     st.title("Porównywarka cen")
 
     # Prześlij plik Excel
-    df = pd.read_excel(
-        io="calc.xlsx",
-        engine="openpyxl",
-        sheet_name="Kalkulator"
-    )
+
 
 
     # Wybierz komórkę do wstawienia wartości
     st.header("Wstawianie wartości do komórki")
     cell_value = st.text_input("Wartość do wstawienia:", "")
     if st.button("Wstaw"):
+        df = pd.read_excel(
+            io="calc.xlsx",
+            engine="openpyxl",
+            sheet_name="Kalkulator"
+        )
         insert_value(df, cell_value)
 
     # Wybierz komórkę z formułą
