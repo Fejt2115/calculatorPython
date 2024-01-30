@@ -2,26 +2,28 @@ import streamlit as st
 import pandas as pd
 
 def main():
-    st.title("Kalkulator Excel w Streamlit")
+    st.title("Porównywarka cen")
 
     # Prześlij plik Excel
-    uploaded_file = st.file_uploader("Wybierz plik Excel", type=["xlsx"])
+    df = pd.read_excel(
+        io="calc.xlsx",
+        engine="openpyxl",
+        sheet_name="Kalkulator"
+    )
 
-    if uploaded_file is not None:
-        df = read_excel_file(uploaded_file)
 
-        # Wybierz komórkę do wstawienia wartości
-        st.header("Wstawianie wartości do komórki")
-        cell_value = st.text_input("Wartość do wstawienia:", "")
-        if st.button("Wstaw"):
-            insert_value(df, cell_value)
+    # Wybierz komórkę do wstawienia wartości
+    st.header("Wstawianie wartości do komórki")
+    cell_value = st.text_input("Wartość do wstawienia:", "")
+    if st.button("Wstaw"):
+        insert_value(df, cell_value)
 
-        # Wybierz komórkę z formułą
-        st.header("Obliczanie formuły")
-        formula_cell = st.text_input("Komórka z formułą (np. A1):", "")
-        if st.button("Oblicz"):
-            result = calculate_formula(df, formula_cell)
-            st.success(f"Wynik obliczeń: {result}")
+    # Wybierz komórkę z formułą
+    st.header("Obliczanie formuły")
+    formula_cell = st.text_input("Komórka z formułą (np. A1):", "")
+    if st.button("Oblicz"):
+        result = calculate_formula(df, formula_cell)
+        st.success(f"Wynik obliczeń: {result}")
 
 def read_excel_file(uploaded_file):
     try:
